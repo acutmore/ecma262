@@ -12495,10 +12495,10 @@
     </emu-alg>
   </emu-clause>
 
-  <emu-clause id="sec-canbeheldweakly-abstract-operation" type="abstract operation" aoid="CanBeHeldWeakly">
+  <emu-clause id="sec-canbeheldweakly-abstract-operation" type="abstract operation">
     <h1>
       CanBeHeldWeakly (
-        _v_: unknown
+        _v_: unknown,
       ): a Boolean
     </h1>
     <dl class="header">
@@ -12511,7 +12511,7 @@
         1. Return *true*.
       1. Return *false*.
     </emu-alg>
-    <emu-note type=editor>
+    <emu-note type="editor">
       <p>This abstract operation determines if _v_ is considered to have an identity suitable for a weak reference. i.e. Is _v_ a valid candidate key of a WeakMap, or entry in a WeakSet, or target of a WeakRef or FinalizationRegistry.</p>
       <p>'Registered symbols' are not considered to have a suitable identity because their identity is similar to strings, and implementations may attempt to collect them when they are unreachable.</p>
       <p>'Well-Known symbols' <emu-xref href="#sec-well-known-symbols"></emu-xref> are considered to have a suitable identity because there are a small finite number of them and implementations do not attempt to unobservably collect them.</p>
@@ -40376,7 +40376,7 @@ THH:mm:ss.sss
     <p>An implementation may impose an arbitrarily determined latency between the time a key/value pair of a WeakMap becomes inaccessible and the time when the key/value pair is removed from the WeakMap. If this latency was observable to ECMAScript program, it would be a source of indeterminacy that could impact program execution. For that reason, an ECMAScript implementation must not provide any means to observe a key of a WeakMap that does not require the observer to present the observed key.</p>
     <p>WeakMaps must be implemented using either hash tables or other mechanisms that, on average, provide access times that are sublinear on the number of key/value pairs in the collection. The data structure used in this specification is only intended to describe the required observable semantics of WeakMaps. It is not intended to be a viable implementation model.</p>
     <emu-note>
-       <p>WeakMap and WeakSets are intended to provide mechanisms for dynamically associating state with an object or symbol in a manner that does not &ldquo;leak&rdquo; memory resources if, in the absence of the WeakMap or WeakSet, the object or symbol otherwise became inaccessible and subject to resource reclamation by the implementation's garbage collection mechanisms. This characteristic can be achieved by using an inverted per-object/symbol mapping of weak map instances to keys. Alternatively, each WeakMap may internally store its key to value mappings, but this approach requires coordination between the WeakMap or WeakSet implementation and the garbage collector. The following references describe mechanism that may be useful to implementations of WeakMap and WeakSet:</p>
+      <p>WeakMap and WeakSets are intended to provide mechanisms for dynamically associating state with an object or symbol in a manner that does not &ldquo;leak&rdquo; memory resources if, in the absence of the WeakMap or WeakSet, the object or symbol otherwise became inaccessible and subject to resource reclamation by the implementation's garbage collection mechanisms. This characteristic can be achieved by using an inverted per-object/symbol mapping of weak map instances to keys. Alternatively, each WeakMap may internally store its key to value mappings, but this approach requires coordination between the WeakMap or WeakSet implementation and the garbage collector. The following references describe mechanism that may be useful to implementations of WeakMap and WeakSet:</p>
       <p>Barry Hayes. 1997. Ephemerons: a new finalization mechanism. In <i>Proceedings of the 12th ACM SIGPLAN conference on Object-oriented programming, systems, languages, and applications (OOPSLA '97)</i>, A. Michael Berman (Ed.). ACM, New York, NY, USA, 176-183, <a href="http://doi.acm.org/10.1145/263698.263733">http://doi.acm.org/10.1145/263698.263733</a>.</p>
       <p>Alexandra Barros, Roberto Ierusalimschy, Eliminating Cycles in Weak Tables. Journal of Universal Computer Science - J.UCS, vol. 14, no. 21, pp. 3481-3497, 2008, <a href="http://www.jucs.org/jucs_14_21/eliminating_cycles_in_weak">http://www.jucs.org/jucs_14_21/eliminating_cycles_in_weak</a></p>
     </emu-note>
