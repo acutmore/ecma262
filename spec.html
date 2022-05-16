@@ -12322,12 +12322,12 @@
   </emu-clause>
 
   <emu-clause id="sec-weakref-processing-model">
-    <h1>Processing Model of WeakRef and FinalizationRegistry Values</h1>
+    <h1>Processing Model of WeakRef and FinalizationRegistry Targets</h1>
 
     <emu-clause id="sec-weakref-invariants">
       <h1>Objectives</h1>
 
-      <p>This specification does not make any guarantees that any object will be garbage collected. Objects or symbols which are not live may be released after long periods of time, or never at all. For this reason, this specification uses the term "may" when describing behaviour triggered by garbage collection.</p>
+      <p>This specification does not make any guarantees that any object or symbol will be garbage collected. Objects or symbols which are not live may be released after long periods of time, or never at all. For this reason, this specification uses the term "may" when describing behaviour triggered by garbage collection.</p>
 
       <p>The semantics of WeakRefs and FinalizationRegistrys is based on two operations which happen at particular points in time:</p>
 
@@ -12337,7 +12337,7 @@
         </li>
 
         <li>
-          When an object which is registered with a FinalizationRegistry becomes unreachable, a call of the FinalizationRegistry's cleanup callback may eventually be made, after synchronous ECMAScript execution completes. The FinalizationRegistry cleanup is performed with the CleanupFinalizationRegistry abstract operation.
+          When an object or symbol which is registered with a FinalizationRegistry becomes unreachable, a call of the FinalizationRegistry's cleanup callback may eventually be made, after synchronous ECMAScript execution completes. The FinalizationRegistry cleanup is performed with the CleanupFinalizationRegistry abstract operation.
         </li>
       </ul>
 
@@ -12361,18 +12361,18 @@
         Colloquially, we say that an individual symbol or object is live if every set of symbols and/or objects containing it is live.
       </emu-note>
 
-      <p>At any point during evaluation, a set of symbols and/or _S_ is considered <dfn>live</dfn> if either of the following conditions is met:</p>
+      <p>At any point during evaluation, a set of symbols and/or objects _S_ is considered <dfn>live</dfn> if either of the following conditions is met:</p>
 
       <ul>
         <li>
           Any element in _S_ is included in any agent's [[KeptAlive]] List.
         </li>
         <li>
-          There exists a valid future hypothetical WeakRef-oblivious execution with respect to _S_ that observes the value of any symbol or object in _S_.
+          There exists a valid future hypothetical WeakRef-oblivious execution with respect to _S_ that observes any value in _S_.
         </li>
       </ul>
       <emu-note>
-        The second condition above intends to capture the intuition that a reference is live if its identity is observable via non-WeakRef means. An reference value's identity may be observed by observing a strict equality comparison or observing the value being used as key in a Map.
+        The second condition above intends to capture the intuition that a reference is live if its identity is observable via non-WeakRef means. A reference value's identity may be observed by observing a strict equality comparison or observing the value being used as key in a Map.
       </emu-note>
       <emu-note>
         <p>Presence of a symbol or an object in a field, an internal slot, or a property does not imply that the reference is live. For example if the reference in question is never passed back to the program, then it cannot be observed.</p>
@@ -12380,9 +12380,6 @@
         <p>This is the case for keys in a WeakMap, members of a WeakSet, as well as the [[WeakRefTarget]] and [[UnregisterToken]] fields of a FinalizationRegistry Cell record.</p>
 
         <p>The above definition implies that, if a key in a WeakMap is not live, then its corresponding value is not necessarily live either.</p>
-      </emu-note>
-      <emu-note>
-        Presence of a symbol in the GlobalSymbolRegistry List might keep the reference alive. Symbol values might have their liveness compromised if contained in the GlobalSymbolRegistry List as it is globablly avaialble and shared by all realms.
       </emu-note>
       <emu-note>
         Liveness is the lower bound for guaranteeing which WeakRefs engines must not empty. Liveness as defined here is undecidable. In practice, engines use conservative approximations such as reachability. There is expected to be significant implementation leeway.
@@ -12419,7 +12416,7 @@
       </emu-note>
       <emu-note>
         <p>Implementations are not obligated to empty WeakRefs for maximal sets of non-live objects or symbols.</p>
-        <p>If an implementation chooses a non-live set _S_ in which to empty WeakRefs, this definition requires that it empties WeakRefs for all objects in _S_ simultaneously. In other words, it is not conformant for an implementation to empty a WeakRef pointing to an object _obj_ without emptying out other WeakRefs that, if not emptied, could result in an execution that observes the Object value of _obj_.</p>
+        <p>If an implementation chooses a non-live set _S_ in which to empty WeakRefs, this definition requires that it empties WeakRefs for all values in _S_ simultaneously. In other words, it is not conformant for an implementation to empty a WeakRef pointing to a value _v_ without emptying out other WeakRefs that, if not emptied, could result in an execution that observes the value of _v_.</p>
       </emu-note>
     </emu-clause>
 
@@ -12472,7 +12469,7 @@
       1. Return ~unused~.
     </emu-alg>
     <emu-note>
-      When the abstract operation AddToKeptObjects is called with a target object, or symbol, reference, it adds the target to a list that will point strongly at the target until ClearKeptObjects is called.
+      When the abstract operation AddToKeptObjects is called with a target object or symbol reference, it adds the target to a list that will point strongly at the target until ClearKeptObjects is called.
     </emu-note>
   </emu-clause>
 
@@ -42710,7 +42707,7 @@ THH:mm:ss.sss
 
   <emu-clause id="sec-weak-ref-objects">
     <h1>WeakRef Objects</h1>
-    <p>A WeakRef is an object that is used to refer to a target object without preserving it from garbage collection. WeakRefs can be dereferenced to allow access to the target object, if the target object hasn't been reclaimed by garbage collection.</p>
+    <p>A WeakRef is an object that is used to refer to a target object or symbol without preserving it from garbage collection. WeakRefs can be dereferenced to allow access to the target value, if the target hasn't been reclaimed by garbage collection.</p>
 
     <emu-clause id="sec-weak-ref-constructor">
       <h1>The WeakRef Constructor</h1>
@@ -42792,7 +42789,7 @@ THH:mm:ss.sss
         </emu-alg>
 
         <emu-note>
-          <p>If the WeakRef returns a _target_ value that is not *undefined*, then this _target_ object should not be garbage collected until the current execution of ECMAScript code has completed. The AddToKeptObjects operation makes sure read consistency is maintained.</p>
+          <p>If the WeakRef returns a _target_ value that is not *undefined*, then this _target_ value should not be garbage collected until the current execution of ECMAScript code has completed. The AddToKeptObjects operation makes sure read consistency is maintained.</p>
 
           <pre><code class="javascript">
             target = { foo: function() {} };
@@ -42848,7 +42845,7 @@ THH:mm:ss.sss
 
   <emu-clause id="sec-finalization-registry-objects">
     <h1>FinalizationRegistry Objects</h1>
-    <p>A FinalizationRegistry is an object that manages registration and unregistration of cleanup operations that are performed when target objects are garbage collected.</p>
+    <p>A FinalizationRegistry is an object that manages registration and unregistration of cleanup operations that are performed when target objects and symbols are garbage collected.</p>
 
     <emu-clause id="sec-finalization-registry-constructor">
       <h1>The FinalizationRegistry Constructor</h1>
