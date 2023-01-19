@@ -38217,101 +38217,101 @@ THH:mm:ss.sss
         <emu-note>
           <p>This method is intentionally generic; it does not require that its *this* value be an Array. Therefore, it can be transferred to other kinds of objects for use as a method.</p>
         </emu-note>
-      </emu-clause>
 
-      <emu-clause id="sec-sortindexedproperties" type="abstract operation">
-        <h1>
-          SortIndexedProperties (
-            _obj_: an Object,
-            _len_: a non-negative integer,
-            _SortCompare_: an Abstract Closure with two parameters,
-            _skipHoles_: a Boolean,
-          ): either a normal completion containing a List or an abrupt completion
-        </h1>
-        <dl class="header">
-        </dl>
-        <emu-alg>
-          1. Let _items_ be a new empty List.
-          1. Let _k_ be 0.
-          1. Repeat, while _k_ &lt; _len_,
-            1. Let _Pk_ be ! ToString(𝔽(_k_)).
-            1. If _skipHoles_ is *true*, then
-              1. Let _kRead_ be ? HasProperty(_obj_, _Pk_).
-            1. Else,
-              1. Let _kRead_ be *true*.
-            1. If _kRead_ is *true*, then
-              1. Let _kValue_ be ? Get(_obj_, _Pk_).
-              1. Append _kValue_ to _items_.
-            1. Set _k_ to _k_ + 1.
-          1. [id="step-array-sort"] Sort _items_ using an implementation-defined sequence of <emu-meta effects="user-code">calls to _SortCompare_</emu-meta>. If any such call returns an abrupt completion, stop before performing any further calls to _SortCompare_ and return that Completion Record.
-          1. Return _items_.
-        </emu-alg>
-        <p>The <dfn id="sort-order">sort order</dfn> is the ordering of _items_ after completion of step <emu-xref href="#step-array-sort"></emu-xref> of the algorithm above. The sort order is implementation-defined if _SortCompare_ is not a consistent comparator for the elements of _items_. When SortIndexedProperties is invoked by <emu-xref href="#sec-array.prototype.sort">Array.prototype.sort</emu-xref>, the sort order is also implementation-defined if _comparefn_ is *undefined*, and all applications of ToString, to any specific value passed as an argument to _SortCompare_, do not produce the same result.</p>
-        <p>Unless the sort order is specified to be implementation-defined, it must satisfy all of the following conditions:</p>
-        <ul>
-          <li>
-            There must be some mathematical permutation π of the non-negative integers less than _itemCount_, such that for every non-negative integer _j_ less than _itemCount_, the element <emu-eqn>old[_j_]</emu-eqn> is exactly the same as <emu-eqn>new[π(_j_)]</emu-eqn>.
-          </li>
-          <li>
-            Then for all non-negative integers _j_ and _k_, each less than _itemCount_, if <emu-eqn>ℝ(_SortCompare_(old[_j_], old[_k_])) &lt; 0</emu-eqn>, then <emu-eqn>π(_j_) &lt; π(_k_)</emu-eqn>.
-          </li>
-        </ul>
-        <p>Here the notation <emu-eqn>old[_j_]</emu-eqn> is used to refer to <emu-eqn>_items_[_j_]</emu-eqn> before step <emu-xref href="#step-array-sort"></emu-xref> is executed, and the notation <emu-eqn>new[_j_]</emu-eqn> to refer to <emu-eqn>_items_[_j_]</emu-eqn> after step <emu-xref href="#step-array-sort"></emu-xref> has been executed.</p>
-        <p>An abstract closure or function _comparator_ is a <dfn id="consistent-comparator">consistent comparator</dfn> for a set of values _S_ if all of the requirements below are met for all values _a_, _b_, and _c_ (possibly the same value) in the set _S_: The notation <emu-eqn>_a_ &lt;<sub>C</sub> _b_</emu-eqn> means <emu-eqn>ℝ(_comparator_(_a_, _b_)) &lt; 0</emu-eqn>; <emu-eqn>_a_ =<sub>C</sub> _b_</emu-eqn> means <emu-eqn>ℝ(_comparator_(_a_, _b_)) = 0</emu-eqn>; and <emu-eqn>_a_ ><sub>C</sub> _b_</emu-eqn> means <emu-eqn>ℝ(_comparator_(_a_, _b_)) > 0</emu-eqn>.</p>
-        <ul>
-          <li>
-            Calling _comparator_(_a_, _b_) always returns the same value _v_ when given a specific pair of values _a_ and _b_ as its two arguments. Furthermore, _v_ is a Number, and _v_ is not *NaN*. Note that this implies that exactly one of _a_ &lt;<sub>C</sub> _b_, _a_ =<sub>C</sub> _b_, and _a_ ><sub>C</sub> _b_ will be true for a given pair of _a_ and _b_.
-          </li>
-          <li>
-            Calling _comparator_(_a_, _b_) does not modify _obj_ or any object on _obj_'s prototype chain.
-          </li>
-          <li>
-            _a_ =<sub>C</sub> _a_ (reflexivity)
-          </li>
-          <li>
-            If _a_ =<sub>C</sub> _b_, then _b_ =<sub>C</sub> _a_ (symmetry)
-          </li>
-          <li>
-            If _a_ =<sub>C</sub> _b_ and _b_ =<sub>C</sub> _c_, then _a_ =<sub>C</sub> _c_ (transitivity of =<sub>C</sub>)
-          </li>
-          <li>
-            If _a_ &lt;<sub>C</sub> _b_ and _b_ &lt;<sub>C</sub> _c_, then _a_ &lt;<sub>C</sub> _c_ (transitivity of &lt;<sub>C</sub>)
-          </li>
-          <li>
-            If _a_ ><sub>C</sub> _b_ and _b_ ><sub>C</sub> _c_, then _a_ ><sub>C</sub> _c_ (transitivity of ><sub>C</sub>)
-          </li>
-        </ul>
-        <emu-note>
-          <p>The above conditions are necessary and sufficient to ensure that _comparator_ divides the set _S_ into equivalence classes and that these equivalence classes are totally ordered.</p>
-        </emu-note>
-      </emu-clause>
+        <emu-clause id="sec-sortindexedproperties" type="abstract operation">
+          <h1>
+            SortIndexedProperties (
+              _obj_: an Object,
+              _len_: a non-negative integer,
+              _SortCompare_: an Abstract Closure with two parameters,
+              _skipHoles_: a Boolean,
+            ): either a normal completion containing a List or an abrupt completion
+          </h1>
+          <dl class="header">
+          </dl>
+          <emu-alg>
+            1. Let _items_ be a new empty List.
+            1. Let _k_ be 0.
+            1. Repeat, while _k_ &lt; _len_,
+              1. Let _Pk_ be ! ToString(𝔽(_k_)).
+              1. If _skipHoles_ is *true*, then
+                1. Let _kRead_ be ? HasProperty(_obj_, _Pk_).
+              1. Else,
+                1. Let _kRead_ be *true*.
+              1. If _kRead_ is *true*, then
+                1. Let _kValue_ be ? Get(_obj_, _Pk_).
+                1. Append _kValue_ to _items_.
+              1. Set _k_ to _k_ + 1.
+            1. [id="step-array-sort"] Sort _items_ using an implementation-defined sequence of <emu-meta effects="user-code">calls to _SortCompare_</emu-meta>. If any such call returns an abrupt completion, stop before performing any further calls to _SortCompare_ and return that Completion Record.
+            1. Return _items_.
+          </emu-alg>
+          <p>The <dfn id="sort-order">sort order</dfn> is the ordering of _items_ after completion of step <emu-xref href="#step-array-sort"></emu-xref> of the algorithm above. The sort order is implementation-defined if _SortCompare_ is not a consistent comparator for the elements of _items_. When SortIndexedProperties is invoked by <emu-xref href="#sec-array.prototype.sort">Array.prototype.sort</emu-xref>, the sort order is also implementation-defined if _comparefn_ is *undefined*, and all applications of ToString, to any specific value passed as an argument to _SortCompare_, do not produce the same result.</p>
+          <p>Unless the sort order is specified to be implementation-defined, it must satisfy all of the following conditions:</p>
+          <ul>
+            <li>
+              There must be some mathematical permutation π of the non-negative integers less than _itemCount_, such that for every non-negative integer _j_ less than _itemCount_, the element <emu-eqn>old[_j_]</emu-eqn> is exactly the same as <emu-eqn>new[π(_j_)]</emu-eqn>.
+            </li>
+            <li>
+              Then for all non-negative integers _j_ and _k_, each less than _itemCount_, if <emu-eqn>ℝ(_SortCompare_(old[_j_], old[_k_])) &lt; 0</emu-eqn>, then <emu-eqn>π(_j_) &lt; π(_k_)</emu-eqn>.
+            </li>
+          </ul>
+          <p>Here the notation <emu-eqn>old[_j_]</emu-eqn> is used to refer to <emu-eqn>_items_[_j_]</emu-eqn> before step <emu-xref href="#step-array-sort"></emu-xref> is executed, and the notation <emu-eqn>new[_j_]</emu-eqn> to refer to <emu-eqn>_items_[_j_]</emu-eqn> after step <emu-xref href="#step-array-sort"></emu-xref> has been executed.</p>
+          <p>An abstract closure or function _comparator_ is a <dfn id="consistent-comparator">consistent comparator</dfn> for a set of values _S_ if all of the requirements below are met for all values _a_, _b_, and _c_ (possibly the same value) in the set _S_: The notation <emu-eqn>_a_ &lt;<sub>C</sub> _b_</emu-eqn> means <emu-eqn>ℝ(_comparator_(_a_, _b_)) &lt; 0</emu-eqn>; <emu-eqn>_a_ =<sub>C</sub> _b_</emu-eqn> means <emu-eqn>ℝ(_comparator_(_a_, _b_)) = 0</emu-eqn>; and <emu-eqn>_a_ ><sub>C</sub> _b_</emu-eqn> means <emu-eqn>ℝ(_comparator_(_a_, _b_)) > 0</emu-eqn>.</p>
+          <ul>
+            <li>
+              Calling _comparator_(_a_, _b_) always returns the same value _v_ when given a specific pair of values _a_ and _b_ as its two arguments. Furthermore, _v_ is a Number, and _v_ is not *NaN*. Note that this implies that exactly one of _a_ &lt;<sub>C</sub> _b_, _a_ =<sub>C</sub> _b_, and _a_ ><sub>C</sub> _b_ will be true for a given pair of _a_ and _b_.
+            </li>
+            <li>
+              Calling _comparator_(_a_, _b_) does not modify _obj_ or any object on _obj_'s prototype chain.
+            </li>
+            <li>
+              _a_ =<sub>C</sub> _a_ (reflexivity)
+            </li>
+            <li>
+              If _a_ =<sub>C</sub> _b_, then _b_ =<sub>C</sub> _a_ (symmetry)
+            </li>
+            <li>
+              If _a_ =<sub>C</sub> _b_ and _b_ =<sub>C</sub> _c_, then _a_ =<sub>C</sub> _c_ (transitivity of =<sub>C</sub>)
+            </li>
+            <li>
+              If _a_ &lt;<sub>C</sub> _b_ and _b_ &lt;<sub>C</sub> _c_, then _a_ &lt;<sub>C</sub> _c_ (transitivity of &lt;<sub>C</sub>)
+            </li>
+            <li>
+              If _a_ ><sub>C</sub> _b_ and _b_ ><sub>C</sub> _c_, then _a_ ><sub>C</sub> _c_ (transitivity of ><sub>C</sub>)
+            </li>
+          </ul>
+          <emu-note>
+            <p>The above conditions are necessary and sufficient to ensure that _comparator_ divides the set _S_ into equivalence classes and that these equivalence classes are totally ordered.</p>
+          </emu-note>
+        </emu-clause>
 
-      <emu-clause id="sec-comparearrayelements" type="abstract operation">
-        <h1>
-          CompareArrayElements (
-            _x_: unknown,
-            _y_: unknown,
-            _comparefn_: a function object or *undefined*,
-          ): either a normal completion containing a Number or an abrupt completion
-        </h1>
-        <dl class="header">
-        </dl>
-        <emu-alg>
-          1. If _x_ and _y_ are both *undefined*, return *+0*<sub>𝔽</sub>.
-          1. If _x_ is *undefined*, return *1*<sub>𝔽</sub>.
-          1. If _y_ is *undefined*, return *-1*<sub>𝔽</sub>.
-          1. If _comparefn_ is not *undefined*, then
-            1. Let _v_ be ? ToNumber(? Call(_comparefn_, *undefined*, « _x_, _y_ »)).
-            1. If _v_ is *NaN*, return *+0*<sub>𝔽</sub>.
-            1. Return _v_.
-          1. [id="step-sortcompare-tostring-x"] Let _xString_ be ? ToString(_x_).
-          1. [id="step-sortcompare-tostring-y"] Let _yString_ be ? ToString(_y_).
-          1. Let _xSmaller_ be ! IsLessThan(_xString_, _yString_, *true*).
-          1. If _xSmaller_ is *true*, return *-1*<sub>𝔽</sub>.
-          1. Let _ySmaller_ be ! IsLessThan(_yString_, _xString_, *true*).
-          1. If _ySmaller_ is *true*, return *1*<sub>𝔽</sub>.
-          1. Return *+0*<sub>𝔽</sub>.
-        </emu-alg>
+        <emu-clause id="sec-comparearrayelements" type="abstract operation">
+          <h1>
+            CompareArrayElements (
+              _x_: unknown,
+              _y_: unknown,
+              _comparefn_: a function object or *undefined*,
+            ): either a normal completion containing a Number or an abrupt completion
+          </h1>
+          <dl class="header">
+          </dl>
+          <emu-alg>
+            1. If _x_ and _y_ are both *undefined*, return *+0*<sub>𝔽</sub>.
+            1. If _x_ is *undefined*, return *1*<sub>𝔽</sub>.
+            1. If _y_ is *undefined*, return *-1*<sub>𝔽</sub>.
+            1. If _comparefn_ is not *undefined*, then
+              1. Let _v_ be ? ToNumber(? Call(_comparefn_, *undefined*, « _x_, _y_ »)).
+              1. If _v_ is *NaN*, return *+0*<sub>𝔽</sub>.
+              1. Return _v_.
+            1. [id="step-sortcompare-tostring-x"] Let _xString_ be ? ToString(_x_).
+            1. [id="step-sortcompare-tostring-y"] Let _yString_ be ? ToString(_y_).
+            1. Let _xSmaller_ be ! IsLessThan(_xString_, _yString_, *true*).
+            1. If _xSmaller_ is *true*, return *-1*<sub>𝔽</sub>.
+            1. Let _ySmaller_ be ! IsLessThan(_yString_, _xString_, *true*).
+            1. If _ySmaller_ is *true*, return *1*<sub>𝔽</sub>.
+            1. Return *+0*<sub>𝔽</sub>.
+          </emu-alg>
+        </emu-clause>
       </emu-clause>
 
       <emu-clause id="sec-array.prototype.splice">
