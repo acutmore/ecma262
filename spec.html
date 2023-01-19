@@ -38386,6 +38386,38 @@ THH:mm:ss.sss
         </emu-note>
       </emu-clause>
 
+      <emu-clause id="sec-array.prototype.tolocalestring">
+        <h1>Array.prototype.toLocaleString ( [ _reserved1_ [ , _reserved2_ ] ] )</h1>
+        <p>An ECMAScript implementation that includes the ECMA-402 Internationalization API must implement this method as specified in the ECMA-402 specification. If an ECMAScript implementation does not include the ECMA-402 API the following specification of this method is used.</p>
+        <emu-note>
+          <p>The first edition of ECMA-402 did not include a replacement specification for this method.</p>
+        </emu-note>
+        <p>The meanings of the optional parameters to this method are defined in the ECMA-402 specification; implementations that do not include ECMA-402 support must not use those parameter positions for anything else.</p>
+        <p>This method performs the following steps when called:</p>
+        <emu-alg>
+          1. Let _array_ be ? ToObject(*this* value).
+          1. Let _len_ be ? LengthOfArrayLike(_array_).
+          1. Let _separator_ be the implementation-defined list-separator String value appropriate for the host environment's current locale (such as *", "*).
+          1. Let _R_ be the empty String.
+          1. Let _k_ be 0.
+          1. Repeat, while _k_ &lt; _len_,
+            1. If _k_ > 0, then
+              1. Set _R_ to the string-concatenation of _R_ and _separator_.
+            1. Let _nextElement_ be ? Get(_array_, ! ToString(𝔽(_k_))).
+            1. If _nextElement_ is not *undefined* or *null*, then
+              1. Let _S_ be ? ToString(? Invoke(_nextElement_, *"toLocaleString"*)).
+              1. Set _R_ to the string-concatenation of _R_ and _S_.
+            1. Set _k_ to _k_ + 1.
+          1. Return _R_.
+        </emu-alg>
+        <emu-note>
+          <p>This method converts the elements of the array to Strings using their `toLocaleString` methods, and then concatenates these Strings, separated by occurrences of an implementation-defined locale-sensitive separator String. This method is analogous to `toString` except that it is intended to yield a locale-sensitive result corresponding with conventions of the host environment's current locale.</p>
+        </emu-note>
+        <emu-note>
+          <p>This method is intentionally generic; it does not require that its *this* value be an Array. Therefore it can be transferred to other kinds of objects for use as a method.</p>
+        </emu-note>
+      </emu-clause>
+
       <emu-clause id="sec-array.prototype.toreversed">
         <h1>Array.prototype.toReversed ( )</h1>
 
@@ -38472,62 +38504,6 @@ THH:mm:ss.sss
         </emu-alg>
       </emu-clause>
 
-      <emu-clause id="sec-array.prototype.with">
-        <h1>Array.prototype.with ( _index_, _value_ )</h1>
-
-        <p>When the *with* method is called, the following steps are taken:</p>
-
-        <emu-alg>
-          1. Let _O_ be ? ToObject(*this* value).
-          1. Let _len_ be ? LengthOfArrayLike(_O_).
-          1. Let _relativeIndex_ be ? ToIntegerOrInfinity(_index_).
-          1. If _relativeIndex_ ≥ 0, let _actualIndex_ be _relativeIndex_.
-          1. Else, let _actualIndex_ be _len_ + _relativeIndex_.
-          1. If _actualIndex_ ≥ _len_ or _actualIndex_ &lt; 0, throw a *RangeError* exception.
-          1. Let _A_ be ? ArrayCreate(𝔽(_len_)).
-          1. Let _k_ be 0.
-          1. Repeat, while _k_ &lt; _len_,
-            1. Let _Pk_ be ! ToString(𝔽(_k_)).
-            1. If _k_ is _actualIndex_, let _fromValue_ be _value_.
-            1. Else, let _fromValue_ be ? Get(_O_, _Pk_).
-            1. Perform ! CreateDataPropertyOrThrow(_A_, _Pk_, _fromValue_).
-            1. Set _k_ to _k_ + 1.
-          1. Return _A_.
-        </emu-alg>
-      </emu-clause>
-
-      <emu-clause id="sec-array.prototype.tolocalestring">
-        <h1>Array.prototype.toLocaleString ( [ _reserved1_ [ , _reserved2_ ] ] )</h1>
-        <p>An ECMAScript implementation that includes the ECMA-402 Internationalization API must implement this method as specified in the ECMA-402 specification. If an ECMAScript implementation does not include the ECMA-402 API the following specification of this method is used.</p>
-        <emu-note>
-          <p>The first edition of ECMA-402 did not include a replacement specification for this method.</p>
-        </emu-note>
-        <p>The meanings of the optional parameters to this method are defined in the ECMA-402 specification; implementations that do not include ECMA-402 support must not use those parameter positions for anything else.</p>
-        <p>This method performs the following steps when called:</p>
-        <emu-alg>
-          1. Let _array_ be ? ToObject(*this* value).
-          1. Let _len_ be ? LengthOfArrayLike(_array_).
-          1. Let _separator_ be the implementation-defined list-separator String value appropriate for the host environment's current locale (such as *", "*).
-          1. Let _R_ be the empty String.
-          1. Let _k_ be 0.
-          1. Repeat, while _k_ &lt; _len_,
-            1. If _k_ > 0, then
-              1. Set _R_ to the string-concatenation of _R_ and _separator_.
-            1. Let _nextElement_ be ? Get(_array_, ! ToString(𝔽(_k_))).
-            1. If _nextElement_ is not *undefined* or *null*, then
-              1. Let _S_ be ? ToString(? Invoke(_nextElement_, *"toLocaleString"*)).
-              1. Set _R_ to the string-concatenation of _R_ and _S_.
-            1. Set _k_ to _k_ + 1.
-          1. Return _R_.
-        </emu-alg>
-        <emu-note>
-          <p>This method converts the elements of the array to Strings using their `toLocaleString` methods, and then concatenates these Strings, separated by occurrences of an implementation-defined locale-sensitive separator String. This method is analogous to `toString` except that it is intended to yield a locale-sensitive result corresponding with conventions of the host environment's current locale.</p>
-        </emu-note>
-        <emu-note>
-          <p>This method is intentionally generic; it does not require that its *this* value be an Array. Therefore it can be transferred to other kinds of objects for use as a method.</p>
-        </emu-note>
-      </emu-clause>
-
       <emu-clause id="sec-array.prototype.tostring">
         <h1>Array.prototype.toString ( )</h1>
         <p>This method performs the following steps when called:</p>
@@ -38583,6 +38559,30 @@ THH:mm:ss.sss
         <emu-alg>
           1. Let _O_ be ? ToObject(*this* value).
           1. Return CreateArrayIterator(_O_, ~value~).
+        </emu-alg>
+      </emu-clause>
+
+      <emu-clause id="sec-array.prototype.with">
+        <h1>Array.prototype.with ( _index_, _value_ )</h1>
+
+        <p>When the *with* method is called, the following steps are taken:</p>
+
+        <emu-alg>
+          1. Let _O_ be ? ToObject(*this* value).
+          1. Let _len_ be ? LengthOfArrayLike(_O_).
+          1. Let _relativeIndex_ be ? ToIntegerOrInfinity(_index_).
+          1. If _relativeIndex_ ≥ 0, let _actualIndex_ be _relativeIndex_.
+          1. Else, let _actualIndex_ be _len_ + _relativeIndex_.
+          1. If _actualIndex_ ≥ _len_ or _actualIndex_ &lt; 0, throw a *RangeError* exception.
+          1. Let _A_ be ? ArrayCreate(𝔽(_len_)).
+          1. Let _k_ be 0.
+          1. Repeat, while _k_ &lt; _len_,
+            1. Let _Pk_ be ! ToString(𝔽(_k_)).
+            1. If _k_ is _actualIndex_, let _fromValue_ be _value_.
+            1. Else, let _fromValue_ be ? Get(_O_, _Pk_).
+            1. Perform ! CreateDataPropertyOrThrow(_A_, _Pk_, _fromValue_).
+            1. Set _k_ to _k_ + 1.
+          1. Return _A_.
         </emu-alg>
       </emu-clause>
 
@@ -39806,6 +39806,15 @@ THH:mm:ss.sss
         <p>This method is not generic. The *this* value must be an object with a [[TypedArrayName]] internal slot.</p>
       </emu-clause>
 
+      <emu-clause id="sec-%typedarray%.prototype.tolocalestring">
+        <h1>%TypedArray%.prototype.toLocaleString ( [ _reserved1_ [ , _reserved2_ ] ] )</h1>
+        <p>This is a distinct method that implements the same algorithm as `Array.prototype.toLocaleString` as defined in <emu-xref href="#sec-array.prototype.tolocalestring"></emu-xref> except that the *this* value's [[ArrayLength]] internal slot is accessed in place of performing a [[Get]] of *"length"*. The implementation of the algorithm may be optimized with the knowledge that the *this* value is an object that has a fixed length and whose <emu-xref href="#integer-index">integer-indexed</emu-xref> properties are not sparse. However, such optimization must not introduce any observable changes in the specified behaviour of the algorithm.</p>
+        <p>This method is not generic. ValidateTypedArray is applied to the *this* value prior to evaluating the algorithm. If its result is an abrupt completion that exception is thrown instead of evaluating the algorithm.</p>
+        <emu-note>
+          <p>If the ECMAScript implementation includes the ECMA-402 Internationalization API this method is based upon the algorithm for `Array.prototype.toLocaleString` that is in the ECMA-402 specification.</p>
+        </emu-note>
+      </emu-clause>
+
       <emu-clause id="sec-%typedarray%.prototype.toreversed">
         <h1>%TypedArray%.prototype.toReversed ( )</h1>
 
@@ -39850,6 +39859,21 @@ THH:mm:ss.sss
         </emu-alg>
       </emu-clause>
 
+      <emu-clause id="sec-%typedarray%.prototype.tostring">
+        <h1>%TypedArray%.prototype.toString ( )</h1>
+        <p>The initial value of the *"toString"* property is %Array.prototype.toString%, defined in <emu-xref href="#sec-array.prototype.tostring"></emu-xref>.</p>
+      </emu-clause>
+
+      <emu-clause id="sec-%typedarray%.prototype.values">
+        <h1>%TypedArray%.prototype.values ( )</h1>
+        <p>This method performs the following steps when called:</p>
+        <emu-alg>
+          1. Let _O_ be the *this* value.
+          1. Perform ? ValidateTypedArray(_O_).
+          1. Return CreateArrayIterator(_O_, ~value~).
+        </emu-alg>
+      </emu-clause>
+
       <emu-clause id="sec-%typedarray%.prototype.with">
         <h1>%TypedArray%.prototype.with ( _index_, _value_ )</h1>
 
@@ -39874,30 +39898,6 @@ THH:mm:ss.sss
             1. Perform ! Set(_A_, _Pk_, _fromValue_, *true*).
             1. Set _k_ to _k_ + 1.
           1. Return _A_.
-        </emu-alg>
-      </emu-clause>
-
-      <emu-clause id="sec-%typedarray%.prototype.tolocalestring">
-        <h1>%TypedArray%.prototype.toLocaleString ( [ _reserved1_ [ , _reserved2_ ] ] )</h1>
-        <p>This is a distinct method that implements the same algorithm as `Array.prototype.toLocaleString` as defined in <emu-xref href="#sec-array.prototype.tolocalestring"></emu-xref> except that the *this* value's [[ArrayLength]] internal slot is accessed in place of performing a [[Get]] of *"length"*. The implementation of the algorithm may be optimized with the knowledge that the *this* value is an object that has a fixed length and whose <emu-xref href="#integer-index">integer-indexed</emu-xref> properties are not sparse. However, such optimization must not introduce any observable changes in the specified behaviour of the algorithm.</p>
-        <p>This method is not generic. ValidateTypedArray is applied to the *this* value prior to evaluating the algorithm. If its result is an abrupt completion that exception is thrown instead of evaluating the algorithm.</p>
-        <emu-note>
-          <p>If the ECMAScript implementation includes the ECMA-402 Internationalization API this method is based upon the algorithm for `Array.prototype.toLocaleString` that is in the ECMA-402 specification.</p>
-        </emu-note>
-      </emu-clause>
-
-      <emu-clause id="sec-%typedarray%.prototype.tostring">
-        <h1>%TypedArray%.prototype.toString ( )</h1>
-        <p>The initial value of the *"toString"* property is %Array.prototype.toString%, defined in <emu-xref href="#sec-array.prototype.tostring"></emu-xref>.</p>
-      </emu-clause>
-
-      <emu-clause id="sec-%typedarray%.prototype.values">
-        <h1>%TypedArray%.prototype.values ( )</h1>
-        <p>This method performs the following steps when called:</p>
-        <emu-alg>
-          1. Let _O_ be the *this* value.
-          1. Perform ? ValidateTypedArray(_O_).
-          1. Return CreateArrayIterator(_O_, ~value~).
         </emu-alg>
       </emu-clause>
 
