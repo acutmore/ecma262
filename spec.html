@@ -38225,7 +38225,7 @@ THH:mm:ss.sss
               _len_: a non-negative integer,
               _SortCompare_: an Abstract Closure with two parameters,
               _skipHoles_: a Boolean,
-            ): either a normal completion containing a List or an abrupt completion
+            ): either a normal completion containing a List of ECMAScript language values or a throw completion
           </h1>
           <dl class="header">
           </dl>
@@ -38288,8 +38288,8 @@ THH:mm:ss.sss
         <emu-clause id="sec-comparearrayelements" type="abstract operation">
           <h1>
             CompareArrayElements (
-              _x_: unknown,
-              _y_: unknown,
+              _x_: an ECMAScript language value,
+              _y_: an ECMAScript language value,
               _comparefn_: a function object or *undefined*,
             ): either a normal completion containing a Number or an abrupt completion
           </h1>
@@ -39957,7 +39957,7 @@ THH:mm:ss.sss
           TypedArrayCreateSameType (
             _exemplar_: a TypedArray,
             _argumentList_: unknown,
-          )
+          ): either a normal completion containing a TypedArray or a throw completion
         </h1>
         <dl class="header">
           <dt>description</dt>
@@ -40019,8 +40019,8 @@ THH:mm:ss.sss
       <emu-clause id="sec-comparetypedarrayelements" type="abstract operation">
         <h1>
           CompareTypedArrayElements (
-            _x_: unknown,
-            _y_: unknown,
+            _x_: a Number or a BigInt,
+            _y_: a Number or a BigInt,
             _comparefn_: a function object or *undefined*,
           ): either a normal completion containing a Number or an abrupt completion
         </h1>
